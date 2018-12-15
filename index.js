@@ -1,29 +1,34 @@
-import 'phaser';
+import Phaser from 'phaser';
+class Game extends Phaser.Scene {
+  constructor() {
+    super('Game')
+  }
+  preaload() {
+    // this.add.text(100, 100, 'Phaser + Parcel');
+  }
+  create() {
+    this.add.text(100, 100, 'Phaser + Parcel');
+  }
+}
 
 const config = {
   type: Phaser.AUTO,
-  width: 640,
-  height: 480,
-  parent: 'game',
-  scene: {
-      // preload: preload,
-      create: create,
-      // update: update
-  }
+  width: 1440,
+  height: 800,
+  scene: Game,
+  backgroundColor: '#5B5678',
+  physics: {
+    default: "arcade"
+  },
 };
 
-const gameEl = document.querySelector(`#${config.parent}`);
-const game = new Phaser.Game(config);
-
-function create() {
-  const text = this.add.text(100, 100, 'Phaser + Parcel');
-}
+new Phaser.Game(config);
 
 if (module.hot) {
-  module.hot.accept(() => {
-    while (gameEl.firstChild) {
-      gameEl.removeChild(gameEl.firstChild);
-    }
-    game.boot();
+  module.hot.accept(() => {});
+
+  module.hot.dispose(() => {
+    window.location.reload();
   });
 }
+
