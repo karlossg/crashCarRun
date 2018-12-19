@@ -1,4 +1,6 @@
-import Phaser from "phaser";
+import 'phaser';
+
+import TestScene from './scenes/PlayScene';
 
 let game;
 
@@ -9,13 +11,12 @@ let game;
  * @function
  *
  */
-
 function loadGameConfig() {
   const config = {
     type: Phaser.AUTO,
     width: 1334,
     height: 750,
-    scene: Game,
+    scene: TestScene,
     backgroundColor: "#5B5678",
     physics: {
       default: "arcade"
@@ -29,22 +30,6 @@ function loadGameConfig() {
 }
 
 window.onload = () => loadGameConfig();
-
-/**
- *
- *
- * @class Game
- * @extends {Phaser.Scene}
- */
-class Game extends Phaser.Scene {
-  constructor() {
-    super("Game");
-  }
-  preaload() {}
-  create() {
-    this.add.text(100, 100, "Phaser + Paasdasdrcel");
-  }
-}
 
 /**
  * Game window resazing function
@@ -65,12 +50,4 @@ function resizeGame() {
     canvas.style.width = windowHeight * gameRatio + "px";
     canvas.style.height = windowHeight + "px";
   }
-}
-
-if (module.hot) {
-  module.hot.accept(() => {});
-
-  module.hot.dispose(() => {
-    window.location.reload();
-  });
 }
