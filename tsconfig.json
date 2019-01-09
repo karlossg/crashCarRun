@@ -7,7 +7,7 @@
 		],
 		"module": "commonjs",
 		"sourceMap": true,
-	`	"esModuleInterop": true,
+		"esModuleInterop": true,
 		"allowSyntheticDefaultImports": true
 	},
 	

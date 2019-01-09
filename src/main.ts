@@ -19,7 +19,7 @@ function loadGameConfig() {
     scene: TestScene,
     backgroundColor: "#5B5678",
     physics: {
-      default: "arcade"
+      default: "arcade",
     }
   };
 
