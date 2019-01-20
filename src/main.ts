@@ -1,6 +1,6 @@
-import 'phaser';
+import "phaser";
 
-import TestScene from './scenes/PlayScene';
+import TestScene from "./scenes/PlayScene";
 
 let game;
 
@@ -17,9 +17,9 @@ function loadGameConfig() {
     width: 1334,
     height: 750,
     scene: TestScene,
-    backgroundColor: "green",
+    backgroundColor: "#2d2d2d",
     physics: {
-      default: "arcade",
+      default: "arcade"
     }
   };
 

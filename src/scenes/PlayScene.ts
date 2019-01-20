@@ -17,43 +17,57 @@ class TestScene extends Phaser.Scene {
 
   preload() {
     this.load.image("player", "/assets/PNG/Cars/car_yellow_small_5.png");
-    this.temp = this.add.text(16, 32, 'Predkosc: 0', { fontSize: '32px', fill: '#953' });
+    this.temp = this.add.text(16, 32, "Predkosc: 0", {
+      fontSize: "32px",
+      fill: "#953"
+    });
   }
 
   create() {
-    this.player = this.physics.add.image(500, 500, "player")
+
+    this.player = this.physics.add.image(500, 500, "player");
     this.player.setMaxVelocity(1000);
-    
+
     this.player.setCollideWorldBounds(true);
     this.player.onWorldBounds = true;
 
+    this.cameras.main.setZoom(2);
+    this.cameras.main.startFollow(this.player, false)
+
     this.cursors = this.input.keyboard.createCursorKeys();
-
-
   }
 
   update() {
     if (this.cursors.up.isDown) {
-      this.temp.setText(`predkosc: ${this.player.body.velocity.y}`)
-      console.log(this.player.body.acceleration)
+      this.temp.setText(`predkosc: ${this.player.body.velocity.y}`);
+      console.log(this.player.body.position);
+      this.player.setMaxVelocity(1000);
       this.physics.velocityFromRotation(
         this.player.rotation,
-        1000,
+        500,
         this.player.body.acceleration
       );
     } else {
       this.player.setAcceleration(0);
     }
     if (this.cursors.left.isDown) {
-      this.player.setAngularVelocity(-300);
+      this.player.setAngularVelocity(-100);
     } else if (this.cursors.right.isDown) {
-      this.player.setAngularVelocity(300);
+      this.player.setAngularVelocity(100);
     } else {
       this.player.setAngularVelocity(0);
     }
-    
-    this.physics.world.wrap(this.player, 32);
 
+    if (this.cursors.down.isDown) {
+      this.physics.velocityFromRotation(
+        this.player.rotation,
+        -150,
+        this.player.body.acceleration
+      );
+
+    }
+
+    this.physics.world.wrap(this.player, 32);
   }
 }
 
