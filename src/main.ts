@@ -17,7 +17,7 @@ function loadGameConfig() {
     width: 1334,
     height: 750,
     scene: TestScene,
-    backgroundColor: "#5B5678",
+    backgroundColor: "green",
     physics: {
       default: "arcade",
     }

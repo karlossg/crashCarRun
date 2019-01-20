@@ -6,8 +6,8 @@
  */
 class TestScene extends Phaser.Scene {
   player: Phaser.GameObjects.Sprite | any;
-  // player2: Phaser.GameObjects.Sprite;
   cursors: any;
+  temp: Phaser.GameObjects.Text;
 
   constructor() {
     super({
@@ -16,32 +16,29 @@ class TestScene extends Phaser.Scene {
   }
 
   preload() {
-    this.load.tilemapTiledJSON("map", "/assets/tilemaps/desert.json");
-    this.load.image("Desert", "/assets/tilemaps/tmw_desert_spacing.png");
     this.load.image("player", "/assets/PNG/Cars/car_yellow_small_5.png");
+    this.temp = this.add.text(16, 32, 'Predkosc: 0', { fontSize: '32px', fill: '#953' });
   }
 
   create() {
-    var map: Phaser.Tilemaps.Tilemap = this.make.tilemap({ key: "map" });
-    // var tileset:Phaser.Tilemaps.Tileset = map.addTilesetImage('Desert');
-    // var layer:Phaser.Tilemaps.StaticTilemapLayer = map.createStaticLayer(0, tileset, 0, 0);
+    this.player = this.physics.add.image(500, 500, "player")
+    this.player.setMaxVelocity(1000);
+    
+    this.player.setCollideWorldBounds(true);
+    this.player.onWorldBounds = true;
 
-    this.player = this.physics.add.image(500, 500, "player");
-    this.player.setDamping(true);
-    this.player.setDrag(0.99);
-    this.player.setMaxVelocity(200);
     this.cursors = this.input.keyboard.createCursorKeys();
 
-    // this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
-    // this.cameras.main.startFollow(this.player, false);
+
   }
 
   update() {
     if (this.cursors.up.isDown) {
-      console.log(typeof  this.player.body.acceleration)
+      this.temp.setText(`predkosc: ${this.player.body.velocity.y}`)
+      console.log(this.player.body.acceleration)
       this.physics.velocityFromRotation(
         this.player.rotation,
-        200,
+        1000,
         this.player.body.acceleration
       );
     } else {
