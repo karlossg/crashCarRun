@@ -14,7 +14,7 @@ let game;
 function loadGameConfig() {
   const config = {
     type: Phaser.AUTO,
-    width: 1334,
+    width: 1536,
     height: 750,
     scene: TestScene,
     backgroundColor: "#2d2d2d",

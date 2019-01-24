@@ -21,9 +21,15 @@ class TestScene extends Phaser.Scene {
       fontSize: "32px",
       fill: "#953"
     });
+    this.load.image('tiles', "../../assets/track.png")
+    this.load.tilemapCSV("map", "../../assets/track.csv");
   }
 
   create() {
+  
+    const map = this.make.tilemap({ key: 'map', tileWidth: 228, tileHeight: 228 });
+    const tiles = map.addTilesetImage("tiles");
+    const layer = map.createDynamicLayer(0, tiles, 0, 0);
 
     this.player = this.physics.add.image(500, 500, "player");
     this.player.setMaxVelocity(1000);
