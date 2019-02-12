@@ -21,24 +21,28 @@ class TestScene extends Phaser.Scene {
       fontSize: "32px",
       fill: "#953"
     });
-    this.load.image('tiles', "../../assets/track.png")
+    this.load.image("tiles", "../../assets/asphalt_road_sprite_sheet.png");
     this.load.tilemapCSV("map", "../../assets/track.csv");
   }
 
   create() {
-  
-    const map = this.make.tilemap({ key: 'map', tileWidth: 228, tileHeight: 228 });
+    const map = this.make.tilemap({
+      key: "map",
+      tileWidth: 130,
+      tileHeight: 130
+    });
     const tiles = map.addTilesetImage("tiles");
-    const layer = map.createDynamicLayer(0, tiles, 0, 0);
+    map.createStaticLayer(0, tiles, 0, 0);
 
-    this.player = this.physics.add.image(500, 500, "player");
-    this.player.setMaxVelocity(1000);
+    this.player = this.physics.add.image(10, 10, "player");
+    this.player.setScale(0.5);
+    this.player.setMaxVelocity(100);
 
     this.player.setCollideWorldBounds(true);
     this.player.onWorldBounds = true;
 
     this.cameras.main.setZoom(2);
-    this.cameras.main.startFollow(this.player, false)
+    this.cameras.main.startFollow(this.player, false);
 
     this.cursors = this.input.keyboard.createCursorKeys();
   }
@@ -46,8 +50,7 @@ class TestScene extends Phaser.Scene {
   update() {
     if (this.cursors.up.isDown) {
       this.temp.setText(`predkosc: ${this.player.body.velocity.y}`);
-      console.log(this.player.body.position);
-      this.player.setMaxVelocity(1000);
+      this.player.setMaxVelocity(100);
       this.physics.velocityFromRotation(
         this.player.rotation,
         500,
@@ -70,7 +73,6 @@ class TestScene extends Phaser.Scene {
         -150,
         this.player.body.acceleration
       );
-
     }
 
     this.physics.world.wrap(this.player, 32);
