@@ -7,6 +7,11 @@
 class TestScene extends Phaser.Scene {
   player: Phaser.GameObjects.Sprite | any;
   cursors: any;
+  map: Phaser.GameObjects.Tile;
+  impact: any
+  tiles: any;
+  walls: any;
+  layer: any;
   temp: Phaser.GameObjects.Text;
 
   constructor() {
@@ -17,7 +22,7 @@ class TestScene extends Phaser.Scene {
 
   preload() {
     this.load.image("player", "/assets/PNG/Cars/car_yellow_small_5.png");
-    this.temp = this.add.text(16, 32, "Predkosc: 0", {
+    this.temp = this.add.text(164, 148, "Predkosc: 0", {
       fontSize: "32px",
       fill: "#953"
     });
@@ -26,17 +31,20 @@ class TestScene extends Phaser.Scene {
   }
 
   create() {
-    const map = this.make.tilemap({
+    this.map = this.make.tilemap({
       key: "map",
       tileWidth: 130,
       tileHeight: 130
     });
-    const tiles = map.addTilesetImage("tiles");
-    map.createStaticLayer(0, tiles, 0, 0);
+    this.tiles = this.map.addTilesetImage("tiles");
+    this.walls = this.map.createStaticLayer(0, this.tiles, 0, 0);
+    this.walls.setCollisionByExclusion([0, 1, 2, 3, 4, 5]);
 
     this.player = this.physics.add.image(10, 10, "player");
+  
     this.player.setScale(0.5);
     this.player.setMaxVelocity(100);
+    this.physics.add.collider(this.player, this.walls, null, null, null);
 
     this.player.setCollideWorldBounds(true);
     this.player.onWorldBounds = true;
@@ -48,29 +56,34 @@ class TestScene extends Phaser.Scene {
   }
 
   update() {
+    console.log(this.player.body.acceleration)
     if (this.cursors.up.isDown) {
-      this.temp.setText(`predkosc: ${this.player.body.velocity.y}`);
-      this.player.setMaxVelocity(100);
+      this.temp.setText(`predkosc: ${this.player.body.velocity.x}`);
+      this.player.setMaxVelocity(150);
       this.physics.velocityFromRotation(
         this.player.rotation,
         500,
-        this.player.body.acceleration
+        this.player.body.velocity
       );
     } else {
       this.player.setAcceleration(0);
     }
     if (this.cursors.left.isDown) {
-      this.player.setAngularVelocity(-100);
+      this.temp.setText(`predkosc: ${this.player.body.velocity.x}`)
+      this.player.setAngularVelocity(-75);
     } else if (this.cursors.right.isDown) {
-      this.player.setAngularVelocity(100);
+      this.temp.setText(`predkosc: ${this.player.body.velocity.x}`)
+      this.player.setAngularVelocity(75);
     } else {
+      this.temp.setText(`predkosc: ${this.player.body.velocity.x}`)
       this.player.setAngularVelocity(0);
     }
 
     if (this.cursors.down.isDown) {
+      this.player.setMaxVelocity(45);
       this.physics.velocityFromRotation(
         this.player.rotation,
-        -150,
+        -125,
         this.player.body.acceleration
       );
     }
